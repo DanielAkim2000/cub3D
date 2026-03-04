@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 13:12:06 by demane            #+#    #+#             */
-/*   Updated: 2026/02/25 13:57:53 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/04 11:04:26 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int	ft_init_game(t_game *game)
 {
 	if (ft_init_mlx(game))
 		return (1);
-	init_player(game);
+	ft_init_player(game);
 	return (0);
 }

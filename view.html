@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>DDA Visualizer</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0a0c10; color: #e2e8f0; font-family: monospace; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+h1 { color: #00e5ff; margin-bottom: 20px; }
+.layout { display: flex; gap: 20px; }
+canvas { border: 1px solid #1e2230; cursor: crosshair; }
+.side { width: 300px; }
+.panel { background: #111318; border: 1px solid #1e2230; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-size: 13px; }
+.row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px solid #1a1d28; }
+.row:last-child { border-bottom: none; }
+.lbl { color: #4a5568; }
+.val { color: #b8ff57; }
+.val.r { color: #ff4d6d; }
+.val.b { color: #00e5ff; }
+.steps { max-height: 200px; overflow-y: auto; }
+.step { padding: 4px 8px; border-radius: 4px; margin-bottom: 2px; font-size: 12px; }
+.step.cur { background: #1a2a1a; color: #b8ff57; border: 1px solid #b8ff57; }
+.step.done { color: #4a5568; }
+.step.hit { background: #0a2020; color: #00e5ff; border: 1px solid #00e5ff; }
+.btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+button { background: #161820; border: 1px solid #1e2230; color: #e2e8f0; padding: 6px 12px; cursor: pointer; border-radius: 4px; font-family: monospace; }
+button:hover { border-color: #00e5ff; color: #00e5ff; }
+button.on { background: #00e5ff; color: #000; border-color: #00e5ff; }
+label { color: #4a5568; font-size: 12px; }
+input[type=range] { accent-color: #00e5ff; width: 180px; }
+.av { color: #b8ff57; font-size: 12px; margin-left: 8px; }
+</style>
+</head>
+<body>
+<h1>🎯 DDA Visualizer — cub3D</h1>
+<div style="margin-bottom:12px;font-size:12px;color:#4a5568">Clique sur la map pour déplacer le joueur</div>
+<div class="layout">
+  <div>
+    <canvas id="c" width="520" height="520"></canvas>
+    <div class="btns" style="margin-top:10px">
+      <button id="bP" class="on">▶ Auto</button>
+      <button id="bS">→ Step</button>
+      <button id="bR">↺ Reset</button>
+      <button id="bA">⚡ Tout</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <label>angle :</label>
+      <input type="range" id="aI" min="0" max="359" value="30">
+      <span class="av" id="aV">30°</span>
+    </div>
+  </div>
+  <div class="side">
+    <div class="panel">
+      <div class="row"><span class="lbl">pos joueur</span><span class="val" id="vp">–</span></div>
+      <div class="row"><span class="lbl">rayDir</span><span class="val" id="vr">–</span></div>
+      <div class="row"><span class="lbl">mapX / mapY</span><span class="val" id="vm">–</span></div>
+      <div class="row"><span class="lbl">deltaDist X/Y</span><span class="val r" id="vd">–</span></div>
+      <div class="row"><span class="lbl">sideDist X/Y</span><span class="val b" id="vs">–</span></div>
+      <div class="row"><span class="lbl">step X/Y</span><span class="val" id="vst">–</span></div>
+      <div class="row"><span class="lbl">side touché</span><span class="val" id="vsh">–</span></div>
+      <div class="row"><span class="lbl">dist mur</span><span class="val" id="vdi">–</span></div>
+    </div>
+    <div class="panel steps" id="sL"></div>
+    <div class="panel" style="font-size:11px;line-height:1.8;border-left:3px solid #00e5ff">
+      <span style="color:#4a5568">// formule deltaDist</span><br>
+      <span style="color:#ff4d6d">deltaDistX</span> = |1 / <span style="color:#b8ff57">rayDirX</span>|<br>
+      <span style="color:#ff4d6d">deltaDistY</span> = |1 / <span style="color:#b8ff57">rayDirY</span>|<br><br>
+      <span style="color:#4a5568">// avance sur le + petit</span><br>
+      <span style="color:#ff4d6d">if</span> (sideDistX &lt; sideDistY)<br>
+      &nbsp;sideDistX += deltaDistX;<br>
+      &nbsp;mapX += stepX;<br>
+      <span style="color:#ff4d6d">else</span><br>
+      &nbsp;sideDistY += deltaDistY;<br>
+      &nbsp;mapY += stepY;
+    </div>
+  </div>
+</div>
+<script>
+const G=10,SZ=520,C=SZ/G;
+const map=[[1,1,1,1,1,1,1,1,1,1],[1,0,0,0,0,0,0,0,0,1],[1,0,1,1,0,0,1,0,0,1],[1,0,1,0,0,0,1,0,0,1],[1,0,0,0,1,0,0,0,0,1],[1,0,0,0,1,0,0,1,0,1],[1,0,0,0,0,0,0,1,0,1],[1,0,1,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,1],[1,1,1,1,1,1,1,1,1,1]];
+const cv=document.getElementById('c'),ctx=cv.getContext('2d');
+let pl={x:2.5,y:4.5},ang=30,idx=0,steps=[],ap=true,timer=null;
+function rad(d){return d*Math.PI/180;}
+function dda(px,py,a){
+  const rx=Math.cos(rad(a)),ry=Math.sin(rad(a));
+  let mx=Math.floor(px),my=Math.floor(py);
+  const dx=Math.abs(1/rx),dy=Math.abs(1/ry);
+  let sx,sy,stx,sty;
+  if(rx<0){stx=-1;sx=(px-mx)*dx;}else{stx=1;sx=(mx+1-px)*dx;}
+  if(ry<0){sty=-1;sy=(py-my)*dy;}else{sty=1;sy=(my+1-py)*dy;}
+  const s=[{mx,my,sx,sy,dx,dy,stx,sty,sd:0,hit:false,px,py,rx,ry,lbl:'🟡 Init',dist:0}];
+  for(let i=0;i<25;i++){
+    let sd;
+    if(sx<sy){sx+=dx;mx+=stx;sd=0;}else{sy+=dy;my+=sty;sd=1;}
+    const w=mx>=0&&my>=0&&mx<G&&my<G&&map[my][mx]===1;
+    const d=sd===0?(mx-px+(1-stx)/2)/rx:(my-py+(1-sty)/2)/ry;
+    s.push({mx,my,sx,sy,dx,dy,stx,sty,sd,hit:w,px,py,rx,ry,lbl:`Step ${i+1} → (${mx},${my}) ${w?'🎯 HIT!':sd===0?'→ X-wall':'↓ Y-wall'}`,dist:d.toFixed(2)});
+    if(w)break;
+  }
+  return s;
+}
+function draw(i){
+  ctx.clearRect(0,0,SZ,SZ);
+  for(let y=0;y<G;y++)for(let x=0;x<G;x++){
+    if(map[y][x]){ctx.fillStyle='#1e2344';ctx.fillRect(x*C,y*C,C,C);ctx.fillStyle='#2d3561';ctx.fillRect(x*C+1,y*C+1,C-2,C-2);}
+    else{ctx.fillStyle='#0d0f14';ctx.fillRect(x*C,y*C,C,C);}
+  }
+  ctx.strokeStyle='#1a1d28';ctx.lineWidth=1;
+  for(let n=0;n<=G;n++){ctx.beginPath();ctx.moveTo(n*C,0);ctx.lineTo(n*C,SZ);ctx.stroke();ctx.beginPath();ctx.moveTo(0,n*C);ctx.lineTo(SZ,n*C);ctx.stroke();}
+  ctx.fillStyle='#2a2d3a';ctx.font=`9px monospace`;
+  for(let y=0;y<G;y++)for(let x=0;x<G;x++)if(!map[y][x])ctx.fillText(`${x},${y}`,x*C+4,y*C+11);
+  const s=steps[i];if(!s)return;
+  for(let n=1;n<=i;n++){const t=steps[n];if(!t.hit){ctx.fillStyle='rgba(184,255,87,0.08)';ctx.fillRect(t.mx*C+1,t.my*C+1,C-2,C-2);}}
+  if(s.hit){ctx.fillStyle='rgba(0,229,255,0.2)';ctx.fillRect(s.mx*C+1,s.my*C+1,C-2,C-2);ctx.strokeStyle='#00e5ff';ctx.lineWidth=2;ctx.strokeRect(s.mx*C+1,s.my*C+1,C-2,C-2);}
+  const px=s.px*C,py=s.py*C;
+  ctx.strokeStyle='rgba(255,77,109,0.12)';ctx.lineWidth=1;ctx.setLineDash([3,5]);
+  ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px+s.rx*15*C,py+s.ry*15*C);ctx.stroke();ctx.setLineDash([]);
+  const rl=Math.max(parseFloat(s.dist)||0.2,0.2);
+  ctx.strokeStyle='#ff4d6d';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px+s.rx*rl*C,py+s.ry*rl*C);ctx.stroke();
+  for(let n=1;n<=i;n++){
+    const t=steps[n];
+    const id=t.sd===0?(t.mx-t.px+(1-t.stx)/2)/t.rx:(t.my-t.py+(1-t.sty)/2)/t.ry;
+    ctx.beginPath();ctx.arc(t.px*C+t.rx*id*C,t.py*C+t.ry*id*C,n===i?5:3,0,Math.PI*2);
+    ctx.fillStyle=t.hit?'#00e5ff':'#b8ff57';ctx.fill();
+  }
+  ctx.beginPath();ctx.arc(px,py,8,0,Math.PI*2);ctx.fillStyle='#ffd166';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='#ffd166';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px+s.rx*15,py+s.ry*15);ctx.stroke();
+}
+function upd(i){
+  const s=steps[i];if(!s)return;
+  document.getElementById('vp').textContent=`(${s.px.toFixed(2)}, ${s.py.toFixed(2)})`;
+  document.getElementById('vr').textContent=`(${s.rx.toFixed(3)}, ${s.ry.toFixed(3)})`;
+  document.getElementById('vm').textContent=`${s.mx} / ${s.my}`;
+  document.getElementById('vd').textContent=`${s.dx.toFixed(3)} / ${s.dy.toFixed(3)}`;
+  document.getElementById('vs').textContent=`${s.sx.toFixed(3)} / ${s.sy.toFixed(3)}`;
+  document.getElementById('vst').textContent=`${s.stx} / ${s.sty}`;
+  document.getElementById('vsh').textContent=i>0?(s.sd===0?'NS (vertical)':'EW (horizontal)'):'–';
+  document.getElementById('vdi').textContent=i>0?s.dist:'–';
+  const l=document.getElementById('sL');
+  l.innerHTML=steps.map((t,n)=>{let c=n<i?'done':n===i?(t.hit?'hit':'cur'):'';return`<div class="step ${c}">${t.lbl}</div>`;}).join('');
+  const items=l.querySelectorAll('.step');if(items[i])items[i].scrollIntoView({block:'nearest'});
+}
+function rebuild(){steps=dda(pl.x,pl.y,ang);idx=0;draw(0);upd(0);}
+function next(){if(idx<steps.length-1){idx++;draw(idx);upd(idx);}if(steps[idx]?.hit&&ap)stop();}
+function start(){ap=true;document.getElementById('bP').classList.add('on');timer=setInterval(()=>{if(idx>=steps.length-1||steps[idx]?.hit)stop();else next();},700);}
+function stop(){ap=false;document.getElementById('bP').classList.remove('on');clearInterval(timer);}
+document.getElementById('bP').onclick=()=>{if(ap)stop();else{rebuild();start();}};
+document.getElementById('bS').onclick=()=>{stop();next();};
+document.getElementById('bR').onclick=()=>{stop();rebuild();};
+document.getElementById('bA').onclick=()=>{stop();idx=steps.length-1;draw(idx);upd(idx);};
+document.getElementById('aI').oninput=function(){ang=+this.value;document.getElementById('aV').textContent=ang+'°';stop();rebuild();start();};
+cv.onclick=e=>{
+  const r=cv.getBoundingClientRect();
+  const gx=(e.clientX-r.left)/C*(SZ/r.width),gy=(e.clientY-r.top)/C*(SZ/r.height);
+  const mx=Math.floor(gx),my=Math.floor(gy);
+  if(mx>=0&&mx<G&&my>=0&&my<G&&!map[my][mx]){pl={x:gx,y:gy};stop();rebuild();start();}
+};
+rebuild();start();
+</script>
+</body>
+</html>
