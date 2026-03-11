@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 16:02:53 by demane            #+#    #+#             */
-/*   Updated: 2026/03/10 17:23:26 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/11 13:40:21 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,12 @@ int	ft_key_press(int keycode, t_game *game)
 		door_x = (int)(game->player.pos_x + game->player.dir_x * 1.5);
 		door_y = (int)(game->player.pos_y + game->player.dir_y * 1.5);
 		if (game->map[door_y][door_x] == 'D')
-			game->doors[door_y][door_x] ^= 1;
+		{
+			if (game->doors[door_y][door_x] == 1)
+				game->doors[door_y][door_x] = 0;
+			else
+				game->doors[door_y][door_x] = 1;
+		}
 	}
 	return (0);
 }
