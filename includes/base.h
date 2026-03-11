@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 12:47:31 by demane            #+#    #+#             */
-/*   Updated: 2026/03/04 11:41:34 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:49:29 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # define WIDTH 1280
 # define HEIGHT 720
+# define MARGIN 0.2
+# define DOOR_TEXTURE_INDEX 4
 # define TITLE "cub3D"
 
 # include "../libft/libft.h"
@@ -30,6 +32,12 @@ typedef struct s_player
 	double		plane_y;
 	double		move_speed;
 	double		rot_speed;
+	int			move_forward;
+	int			move_backward;
+	int			strafe_left;
+	int			strafe_right;
+	int			rotate_left;
+	int			rotate_right;
 }				t_player;
 
 typedef struct s_ray
@@ -70,7 +78,8 @@ typedef struct s_game
 	void		*mlx;
 	void		*win;
 	t_texture	screen;
-	t_texture	textures[4];
+	t_texture	textures[5];
+	char		*tex_paths[5];
 	t_player	player;
 	t_ray		ray;
 	char		**map;

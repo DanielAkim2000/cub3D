@@ -6,13 +6,14 @@
 #    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/04 11:09:10 by demane            #+#    #+#              #
-#    Updated: 2026/03/04 11:34:38 by demane           ###   ########.fr        #
+#    Updated: 2026/03/09 17:03:06 by demane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
-CC = cc -wall -wextra -werror
-CFLAGS      = -Wall -Wextra -Werror -I./includes
+CC = @cc
+CFLAGS = -Wall -Wextra -Werror -Iincludes -Iminilibx-linux
+LDFLAGS = -Lminilibx-linux -lmlx_Linux -lXext -lX11 -lm -lz
 MLX = minilibx-linux/libmlx_Linux.a
 
 DIR_SRCS    = srcs
@@ -25,15 +26,17 @@ DIR_HOOKS = hooks
 DIR_TEXTURES = textures
 DIR_SPRITES = sprites
 DIR_RAYCASTER = raycaster
+DIR_MINIMAP = minimap
 
 ## FILES
 
-FILES_INIT = init_mlx.c init.C
-FILES_HOOKS = keys.c mouse.C
-FILES_PARSER = parser.C
+FILES_INIT = init_mlx.c init.c
+FILES_HOOKS = keys.c mouse.c render.c move.c
+FILES_PARSER = parser.c
 FILES_RAYCASTER = dda.c draw.c raycast.c
 FILES_SPRITES = sprites.c
 FILES_TEXTURES = colors.c textures.c
+FILES_MINIMAP = minimap.c
 
 ## SRCS
 
@@ -43,9 +46,10 @@ SRCS_RAYCASTER = $(addprefix $(DIR_SRCS)/$(DIR_RAYCASTER)/, $(FILES_RAYCASTER))
 SRCS_SPRITES = $(addprefix $(DIR_SRCS)/$(DIR_SPRITES)/, $(FILES_SPRITES))
 SRCS_TEXTURES = $(addprefix $(DIR_SRCS)/$(DIR_TEXTURES)/, $(FILES_TEXTURES))
 SRCS_HOOKS      = $(addprefix $(DIR_SRCS)/$(DIR_HOOKS)/, $(FILES_HOOKS))
+SRCS_MINIMAP      = $(addprefix $(DIR_SRCS)/$(DIR_MINIMAP)/, $(FILES_MINIMAP))
 MAIN = $(addprefix $(DIR_SRCS)/, main.c)
 
-SRCS = $(SRCS_INIT) $(SRCS_PARSER) $(SRCS_RAYCASTER) $(SRCS_SPRITES) $(SRCS_TEXTURES) $(SRCS_HOOKS) $(MAIN)
+SRCS = $(SRCS_INIT) $(SRCS_PARSER) $(SRCS_RAYCASTER) $(SRCS_SPRITES) $(SRCS_TEXTURES) $(SRCS_HOOKS) $(SRCS_MINIMAP) $(MAIN)
 ## OBJS
 OBJS = $(SRCS:$(DIR_SRCS)/%.c=$(DIR_OBJS)/%.o)
 ## LIBFT
@@ -83,7 +87,7 @@ endef
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX) $(LDFLAGS) -o $(NAME)
 	@printf "\n$(GREEN)✔ Build MINISHELL terminé$(RESET)\n"
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c
@@ -96,11 +100,11 @@ $(LIBFT):
 
 clean:
 	@rm -rf $(DIR_OBJS)
-	@make -C $(DIR_INCLUDES)/libft clean
+	@make -C $(DIR_LIBFT) clean
 
 fclean: clean
 	@rm -rf $(NAME)
-	@make -C $(DIR_INCLUDES)/libft fclean
+	@make -C $(DIR_LIBFT) fclean
 
 re: fclean all
 

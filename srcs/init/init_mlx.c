@@ -6,13 +6,13 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 13:12:03 by demane            #+#    #+#             */
-/*   Updated: 2026/02/25 14:46:12 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/04 23:01:36 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/init.h"
 
-static int	init_screen(t_game *game)
+static int	ft_init_screen(t_game *game)
 {
 	game->screen.img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	if (!game->screen.img)
@@ -42,7 +42,7 @@ int	ft_init_mlx(t_game *game)
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, TITLE);
 	if (!game->win)
 		return (1);
-	if (init_screen(game))
+	if (ft_init_screen(game))
 		return (1);
 	return (0);
 }
