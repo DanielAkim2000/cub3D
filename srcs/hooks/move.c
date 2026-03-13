@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 13:46:18 by demane            #+#    #+#             */
-/*   Updated: 2026/03/10 18:47:17 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/13 13:59:48 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	ft_rotate_left(t_game *game)
 	t_player	*p;
 
 	p = &game->player;
-	new_dir[0] = p->dir_x * cos(p->rot_speed) - p->dir_y * sin(p->rot_speed);
-	new_dir[1] = p->dir_x * sin(p->rot_speed) + p->dir_y * cos(p->rot_speed);
-	new_plane[0] = p->plane_x * cos(p->rot_speed) - p->plane_y
+	new_dir[0] = p->dir_x * cos(p->rot_speed) + p->dir_y * sin(p->rot_speed);
+	new_dir[1] = -p->dir_x * sin(p->rot_speed) + p->dir_y * cos(p->rot_speed);
+	new_plane[0] = p->plane_x * cos(p->rot_speed) + p->plane_y
 		* sin(p->rot_speed);
-	new_plane[1] = p->plane_x * sin(p->rot_speed) + p->plane_y
+	new_plane[1] = -p->plane_x * sin(p->rot_speed) + p->plane_y
 		* cos(p->rot_speed);
 	p->dir_x = new_dir[0];
 	p->dir_y = new_dir[1];
@@ -38,11 +38,11 @@ void	ft_rotate_right(t_game *game)
 	t_player	*p;
 
 	p = &game->player;
-	new_dir[0] = p->dir_x * cos(p->rot_speed) + p->dir_y * sin(p->rot_speed);
-	new_dir[1] = -p->dir_x * sin(p->rot_speed) + p->dir_y * cos(p->rot_speed);
-	new_plane[0] = p->plane_x * cos(p->rot_speed) + p->plane_y
+	new_dir[0] = p->dir_x * cos(p->rot_speed) - p->dir_y * sin(p->rot_speed);
+	new_dir[1] = p->dir_x * sin(p->rot_speed) + p->dir_y * cos(p->rot_speed);
+	new_plane[0] = p->plane_x * cos(p->rot_speed) - p->plane_y
 		* sin(p->rot_speed);
-	new_plane[1] = -p->plane_x * sin(p->rot_speed) + p->plane_y
+	new_plane[1] = p->plane_x * sin(p->rot_speed) + p->plane_y
 		* cos(p->rot_speed);
 	p->dir_x = new_dir[0];
 	p->dir_y = new_dir[1];

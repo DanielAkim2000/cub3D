@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 13:27:18 by demane            #+#    #+#             */
-/*   Updated: 2026/03/10 13:51:59 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/13 13:57:33 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_handle_mouse(t_game *game)
 	if (!game->mouse_enabled)
 		return ;
 	mlx_mouse_get_pos(game->mlx, game->win, &x, &y);
-	delta_x = x - (WIDTH / 2);
+	delta_x = -x + (WIDTH / 2);
 	if (delta_x == 0)
 		return ;
 	angle = delta_x * 0.002;
