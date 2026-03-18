@@ -6,17 +6,67 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 16:25:50 by demane            #+#    #+#             */
-/*   Updated: 2026/03/09 17:01:27 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/15 19:16:46 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/hooks.h"
 
+static void	ft_update_doors(t_game *game)
+{
+	int		y;
+	int		x;
+	double	target;
+
+	y = 0;
+	while (y < game->map_height)
+	{
+		x = 0;
+		while (x < (int)ft_strlen(game->map[y]))
+		{
+			if (game->map[y][x] == 'D')
+			{
+				target = game->door_target[y][x];
+				if (game->door_open[y][x] < target)
+					game->door_open[y][x] += DOOR_SLIDE_SPEED;
+				else if (game->door_open[y][x] > target)
+					game->door_open[y][x] -= DOOR_SLIDE_SPEED;
+				if (game->door_open[y][x] < 0.0)
+					game->door_open[y][x] = 0.0;
+				if (game->door_open[y][x] > 1.0)
+					game->door_open[y][x] = 1.0;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+static void	ft_draw_crosshair(t_game *game)
+{
+	int	cx;
+	int	cy;
+	int	i;
+
+	cx = WIDTH / 2;
+	cy = HEIGHT / 2;
+	i = -6;
+	while (i <= 6)
+	{
+		ft_put_pixel(&game->screen, cx + i, cy, 0xFFFFFF);
+		ft_put_pixel(&game->screen, cx, cy + i, 0xFFFFFF);
+		i++;
+	}
+}
+
 int	ft_render_frame(t_game *game)
 {
 	ft_handle_movement(game);
 	ft_handle_mouse(game);
+	ft_update_doors(game);
 	ft_raycast(game);
 	ft_draw_minimap(game);
+	ft_draw_crosshair(game);
+	mlx_put_image_to_window(game->mlx, game->win, game->screen.img, 0, 0);
 	return (0);
 }

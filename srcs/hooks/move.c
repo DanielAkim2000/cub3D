@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 13:46:18 by demane            #+#    #+#             */
-/*   Updated: 2026/03/13 13:59:48 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/18 11:02:21 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	ft_is_blocking(t_game *game, int cy, int cx)
 	cell = game->map[cy][cx];
 	if (cell == '1')
 		return (1);
-	if (cell == 'D' && game->doors[cy][cx] == 0)
+	if (cell == 'D' && game->door_open[cy][cx] < DOOR_BLOCK_THRESHOLD)
 		return (1);
 	return (0);
 }

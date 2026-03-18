@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 12:47:31 by demane            #+#    #+#             */
-/*   Updated: 2026/03/10 16:49:29 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/15 19:03:06 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define HEIGHT 720
 # define MARGIN 0.2
 # define DOOR_TEXTURE_INDEX 4
+# define DOOR_SLIDE_SPEED 0.06
+# define DOOR_BLOCK_THRESHOLD 0.999
 # define TITLE "cub3D"
 
 # include "../libft/libft.h"
@@ -87,7 +89,8 @@ typedef struct s_game
 	int			map_height;
 	int			floor_color;
 	int			ceil_color;
-	int			**doors;
+	int			**door_target;
+	double		**door_open;
 	int			mouse_enabled;
 	int			mouse_x_prev;
 }				t_game;

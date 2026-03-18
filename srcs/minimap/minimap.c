@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 16:50:29 by demane            #+#    #+#             */
-/*   Updated: 2026/03/10 17:23:26 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/15 19:03:06 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,12 @@ void	ft_draw_minimap(t_game *game)
 		{
 			if (game->map[j - 1][i - 1] == '1')
 				ft_draw_tile(game, i, j, MINI_WALL_COLOR);
-			else if (game->map[j - 1][i - 1] == 'D')
+			else if (game->map[j - 1][i - 1] == 'D'
+				&& game->door_open[j - 1][i - 1] < 1.0)
 				ft_draw_tile(game, i, j, MINI_DOOR_COLOR);
+			else if (game->map[j - 1][i - 1] == 'D'
+				&& game->door_open[j - 1][i - 1] >= 1.0)
+				ft_draw_tile(game, i, j, MINI_FLOOR_COLOR);
 			else if (game->map[j - 1][i - 1] == '0')
 				ft_draw_tile(game, i, j, MINI_FLOOR_COLOR);
 			else

@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 14:32:02 by demane            #+#    #+#             */
-/*   Updated: 2026/03/10 16:49:29 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/15 19:03:06 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,11 @@ int	ft_parse_map(t_game *game, int fd)
 	game->map = malloc(sizeof(char *) * 1000);
 	if (!game->map)
 		return (0);
-	game->doors = malloc(sizeof(int *) * 1000);
-	if (!game->doors)
+	game->door_target = malloc(sizeof(int *) * 1000);
+	if (!game->door_target)
+		return (0);
+	game->door_open = malloc(sizeof(double *) * 1000);
+	if (!game->door_open)
 		return (0);
 	game->map_height = 0;
 	game->map_width = 0;
@@ -196,12 +199,14 @@ int	ft_parse_map(t_game *game, int fd)
 		}
 		if (x > (int)game->map_width)
 			game->map_width = x;
-		game->doors[y] = ft_calloc(x + 1, sizeof(int));
+		game->door_target[y] = ft_calloc(x + 1, sizeof(int));
+		game->door_open[y] = ft_calloc(x + 1, sizeof(double));
 		game->map[y++] = ft_strtrim(line, "\n");
 		free(line);
 	}
 	game->map[y] = NULL;
-	game->doors[y] = NULL;
+	game->door_target[y] = NULL;
+	game->door_open[y] = NULL;
 	game->map_height = y;
 	if (player_count != 1)
 		return (ft_putstr_fd("Error\nInvalid player count\n", 2), 0);
@@ -244,7 +249,8 @@ int	ft_parse_file(t_game *game, char *filename)
 	int	fd;
 
 	game->tex_paths[4] = NULL;
-	game->doors = NULL;
+	game->door_target = NULL;
+	game->door_open = NULL;
 	if (!ft_check_extension(filename))
 		return (ft_putstr_fd("Error\nInvalid file extension\n", 2), 0);
 	fd = open(filename, O_RDONLY);
