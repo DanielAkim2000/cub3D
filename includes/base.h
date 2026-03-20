@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 12:47:31 by demane            #+#    #+#             */
-/*   Updated: 2026/03/15 19:03:06 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/20 11:08:21 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define HEIGHT 720
 # define MARGIN 0.2
 # define DOOR_TEXTURE_INDEX 4
-# define DOOR_SLIDE_SPEED 0.06
+# define DOOR_SLIDE_SPEED 0.02
 # define DOOR_BLOCK_THRESHOLD 0.999
 # define TITLE "cub3D"
 

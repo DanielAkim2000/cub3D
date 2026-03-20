@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 13:27:18 by demane            #+#    #+#             */
-/*   Updated: 2026/03/13 13:57:33 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/20 11:16:43 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,11 @@ int	ft_mouse_move(int x, int y, t_game *game)
 
 void	ft_handle_mouse(t_game *game)
 {
-	int			x;
-	int			y;
-	int			delta_x;
-	double		angle;
-	double		old_dir_x;
-	double		old_plane_x;
-	t_player	*p;
+	int		x;
+	int		y;
+	int		delta_x;
+	double	angle;
+	double	old[2];
 
 	if (!game->mouse_enabled)
 		return ;
@@ -37,12 +35,15 @@ void	ft_handle_mouse(t_game *game)
 	if (delta_x == 0)
 		return ;
 	angle = delta_x * 0.002;
-	p = &game->player;
-	old_dir_x = p->dir_x;
-	p->dir_x = old_dir_x * cos(-angle) - p->dir_y * sin(-angle);
-	p->dir_y = old_dir_x * sin(-angle) + p->dir_y * cos(-angle);
-	old_plane_x = p->plane_x;
-	p->plane_x = old_plane_x * cos(-angle) - p->plane_y * sin(-angle);
-	p->plane_y = old_plane_x * sin(-angle) + p->plane_y * cos(-angle);
+	old[0] = game->player.dir_x;
+	game->player.dir_x = old[0] * cos(-angle) - game->player.dir_y
+		* sin(-angle);
+	game->player.dir_y = old[0] * sin(-angle) + game->player.dir_y
+		* cos(-angle);
+	old[1] = game->player.plane_x;
+	game->player.plane_x = old[1] * cos(-angle) - game->player.plane_y
+		* sin(-angle);
+	game->player.plane_y = old[1] * sin(-angle) + game->player.plane_y
+		* cos(-angle);
 	mlx_mouse_move(game->mlx, game->win, WIDTH / 2, HEIGHT / 2);
 }
