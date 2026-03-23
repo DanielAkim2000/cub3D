@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 16:02:53 by demane            #+#    #+#             */
-/*   Updated: 2026/03/23 15:59:06 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/23 18:45:51 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ static void	ft_toggle_front_door(t_game *game)
 
 	door_x = (int)(game->player.pos_x + game->player.dir_x * 1.5);
 	door_y = (int)(game->player.pos_y + game->player.dir_y * 1.5);
+	if (door_x >= game->map_width || door_y >= game->map_height || door_x <= 0
+		|| door_y <= 0)
+		return ((void)0);
 	if (game->map[door_y][door_x] == 'D')
 	{
 		if (game->door_target[door_y][door_x] >= DOOR_MAX_OPEN)
