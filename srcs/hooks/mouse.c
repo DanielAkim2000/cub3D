@@ -6,19 +6,11 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 13:27:18 by demane            #+#    #+#             */
-/*   Updated: 2026/03/21 18:09:38 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/23 16:02:35 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/hooks.h"
-
-int	ft_mouse_move(int x, int y, t_game *game)
-{
-	(void)x;
-	(void)y;
-	(void)game;
-	return (0);
-}
 
 int	ft_mouse_press(int button, int x, int y, t_game *game)
 {

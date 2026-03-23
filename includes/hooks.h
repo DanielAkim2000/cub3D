@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 11:40:24 by demane            #+#    #+#             */
-/*   Updated: 2026/03/21 17:28:32 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/23 16:02:43 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	ft_rotate_right(t_game *game);
 int		ft_check_collision(t_game *game, double new_x, double new_y);
 
 // Mouse
-int		ft_mouse_move(int x, int y, t_game *game);
 int		ft_mouse_press(int button, int x, int y, t_game *game);
 void	ft_handle_mouse(t_game *game);
 

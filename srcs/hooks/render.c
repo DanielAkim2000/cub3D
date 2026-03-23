@@ -6,17 +6,31 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 16:25:50 by demane            #+#    #+#             */
-/*   Updated: 2026/03/21 18:14:20 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/23 15:59:06 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/hooks.h"
 
+static void	ft_update_door_cell(t_game *game, int y, int x)
+{
+	double	target;
+
+	target = game->door_target[y][x] * DOOR_MAX_OPEN;
+	if (game->door_open[y][x] < target)
+		game->door_open[y][x] += DOOR_SLIDE_SPEED;
+	else if (game->door_open[y][x] > target)
+		game->door_open[y][x] -= DOOR_SLIDE_SPEED;
+	if (game->door_open[y][x] < 0.0)
+		game->door_open[y][x] = 0.0;
+	if (game->door_open[y][x] > DOOR_MAX_OPEN)
+		game->door_open[y][x] = DOOR_MAX_OPEN;
+}
+
 static void	ft_update_doors(t_game *game)
 {
-	int		y;
-	int		x;
-	double	target;
+	int	y;
+	int	x;
 
 	y = 0;
 	while (y < game->map_height)
@@ -25,17 +39,7 @@ static void	ft_update_doors(t_game *game)
 		while (x < (int)ft_strlen(game->map[y]))
 		{
 			if (game->map[y][x] == 'D')
-			{
-				target = game->door_target[y][x] * DOOR_MAX_OPEN;
-				if (game->door_open[y][x] < target)
-					game->door_open[y][x] += DOOR_SLIDE_SPEED;
-				else if (game->door_open[y][x] > target)
-					game->door_open[y][x] -= DOOR_SLIDE_SPEED;
-				if (game->door_open[y][x] < 0.0)
-					game->door_open[y][x] = 0.0;
-				if (game->door_open[y][x] > DOOR_MAX_OPEN)
-					game->door_open[y][x] = DOOR_MAX_OPEN;
-			}
+				ft_update_door_cell(game, y, x);
 			x++;
 		}
 		y++;

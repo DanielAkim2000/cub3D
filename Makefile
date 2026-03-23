@@ -6,7 +6,7 @@
 #    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/04 11:09:10 by demane            #+#    #+#              #
-#    Updated: 2026/03/09 17:03:06 by demane           ###   ########.fr        #
+#    Updated: 2026/03/23 15:59:06 by demane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,13 @@ DIR_MINIMAP = minimap
 ## FILES
 
 FILES_INIT = init_mlx.c init.c
-FILES_HOOKS = keys.c mouse.c render.c move.c
-FILES_PARSER = parser.c
+FILES_HOOKS = keys.c mouse.c render.c move.c move_rotate.c move_walk.c \
+	close_window.c
+FILES_PARSER = parser.c parser_elements.c parser_map.c parser_map_closed.c
 FILES_RAYCASTER = dda.c draw.c raycast.c
-FILES_SPRITES = sprites.c
+FILES_SPRITES = sprites.c sprites_draw.c
 FILES_TEXTURES = colors.c textures.c
-FILES_MINIMAP = minimap.c
+FILES_MINIMAP = minimap.c minimap_utils.c
 
 ## SRCS
 

@@ -6,59 +6,50 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 16:50:29 by demane            #+#    #+#             */
-/*   Updated: 2026/03/21 18:20:30 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/23 15:59:06 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minimap.h"
 
-void	ft_draw_tile(t_game *game, int i, int j, int color)
-{
-	int	px;
-	int	py;
+static void	ft_draw_tiles(t_game *game, int center[2], int radius) {
+  int xy[2];
+  int start[2];
+  int rect[3];
 
-	px = 0;
-	while (px < MINI_SCALE)
-	{
-		py = 0;
-		while (py < MINI_SCALE)
-		{
-			ft_put_pixel(&game->screen, i * MINI_SCALE + px, j * MINI_SCALE
-				+ py, color);
-			py++;
-		}
-		px++;
-	}
+  start[0] = (int)game->player.pos_x - radius;
+  start[1] = (int)game->player.pos_y - radius;
+  xy[1] = start[1];
+  while (xy[1] <= (int)game->player.pos_y + radius) {
+    xy[0] = start[0];
+    while (xy[0] <= (int)game->player.pos_x + radius) {
+      rect[0] =
+          center[0] + (int)((xy[0] - game->player.pos_x) * MINI_TILE_SIZE);
+      rect[1] =
+          center[1] + (int)((xy[1] - game->player.pos_y) * MINI_TILE_SIZE);
+      rect[2] = MINI_TILE_SIZE;
+      ft_draw_rect_clipped(
+          game, rect,
+          ft_cell_color(game, xy[0], xy[1], ft_get_cell(game, xy[0], xy[1])));
+      xy[0]++;
+    }
+    xy[1]++;
+  }
 }
 
-void	ft_draw_minimap(t_game *game)
-{
-	int	i;
-	int	j;
+void	ft_draw_minimap(t_game *game) {
+  int center[2];
+  int rect[3];
+  int radius;
 
-	j = 1;
-	while (j < game->map_height + 1)
-	{
-		i = 1;
-		while (i < game->map_width + 1)
-		{
-			if (game->map[j - 1][i - 1] == '1')
-				ft_draw_tile(game, i, j, MINI_WALL_COLOR);
-			else if (game->map[j - 1][i - 1] == 'D' && game->door_open[j - 1][i
-				- 1] < DOOR_MAX_OPEN)
-				ft_draw_tile(game, i, j, MINI_DOOR_COLOR);
-			else if (game->map[j - 1][i - 1] == 'D' && game->door_open[j - 1][i
-				- 1] >= DOOR_MAX_OPEN)
-				ft_draw_tile(game, i, j, MINI_FLOOR_COLOR);
-			else if (game->map[j - 1][i - 1] == '0')
-				ft_draw_tile(game, i, j, MINI_FLOOR_COLOR);
-			else
-				ft_draw_tile(game, i, j, MINI_VOID_COLOR);
-			i++;
-		}
-		j++;
-	}
-	ft_put_pixel(&game->screen, (int)(game->player.pos_x * MINI_SCALE)
-		+ MINI_SCALE, (int)(game->player.pos_y * MINI_SCALE) + MINI_SCALE,
-		MINI_PLAYER_COLOR);
+  rect[0] = MINI_OFFSET_X;
+  rect[1] = MINI_OFFSET_Y;
+  rect[2] = MINI_SIZE;
+  ft_draw_rect_clipped(game, rect, MINI_VOID_COLOR);
+  center[0] = MINI_OFFSET_X + MINI_SIZE / 2;
+  center[1] = MINI_OFFSET_Y + MINI_SIZE / 2;
+  radius = MINI_SIZE / (2 * MINI_TILE_SIZE) + 2;
+  ft_draw_tiles(game, center, radius);
+  ft_draw_player(game, center[0], center[1]);
+  ft_draw_border(game);
 }

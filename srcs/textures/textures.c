@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 14:58:42 by demane            #+#    #+#             */
-/*   Updated: 2026/03/21 18:14:20 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/23 15:59:06 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,26 +100,15 @@ int	ft_get_wall_texture_num(t_game *game)
 	if (game->ray.side == 0)
 	{
 		if (game->ray.ray_dir_x > 0)
-			return (3); // EA (Est)
+			return (3);
 		else
-			return (2); // WE (Ouest)
+			return (2);
 	}
-	// Mur horizontal (side == 1) : Nord ou Sud
 	else
 	{
 		if (game->ray.ray_dir_y > 0)
-			return (1); // SO (Sud)
+			return (1);
 		else
-			return (0); // NO (Nord)
+			return (0);
 	}
-}
-
-int	ft_get_texture_pixel(t_game *game, int tex_num, int tex_x, int tex_y)
-{
-	char	*pixel;
-
-	pixel = game->textures[tex_num].addr + (tex_y
-			* game->textures[tex_num].line_len + tex_x
-			* (game->textures[tex_num].bpp / 8));
-	return (*(int *)pixel);
 }
