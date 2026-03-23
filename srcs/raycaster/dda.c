@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 12:25:54 by demane            #+#    #+#             */
-/*   Updated: 2026/03/15 19:03:06 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/21 18:14:20 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ static int	ft_check_door_hit(t_game *game, int door_dir)
 	mx = game->ray.map_x;
 	my = game->ray.map_y;
 	open_ratio = game->door_open[my][mx];
+	if (open_ratio > DOOR_MAX_OPEN)
+		open_ratio = DOOR_MAX_OPEN;
 	if (door_dir == 0)
 	{
 		door_dist = (mx + 0.5 - game->player.pos_x) / game->ray.ray_dir_x;

@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 14:58:42 by demane            #+#    #+#             */
-/*   Updated: 2026/03/10 17:23:26 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/21 18:14:20 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,21 @@ double	ft_get_wall_x(t_game *game)
 
 int	ft_get_tex_x(t_game *game, double wall_x, int tex_num)
 {
-	int	tex_x;
+	double	door_offset;
+	int		tex_x;
 
+	if (tex_num == DOOR_TEXTURE_INDEX)
+	{
+		door_offset = game->door_open[game->ray.map_y][game->ray.map_x];
+		if (door_offset > DOOR_MAX_OPEN)
+			door_offset = DOOR_MAX_OPEN;
+		wall_x -= door_offset;
+		if (wall_x < 0.0)
+			wall_x = 0.0;
+	}
 	tex_x = (int)(wall_x * game->textures[tex_num].width);
+	if (tex_x >= game->textures[tex_num].width)
+		tex_x = game->textures[tex_num].width - 1;
 	if (game->ray.side == 0 && game->ray.ray_dir_x > 0)
 		tex_x = game->textures[tex_num].width - tex_x - 1;
 	if (game->ray.side == 1 && game->ray.ray_dir_y < 0)

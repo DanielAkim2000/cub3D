@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 12:47:31 by demane            #+#    #+#             */
-/*   Updated: 2026/03/20 11:08:21 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/23 13:22:26 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,13 @@
 # define MARGIN 0.2
 # define DOOR_TEXTURE_INDEX 4
 # define DOOR_SLIDE_SPEED 0.02
-# define DOOR_BLOCK_THRESHOLD 0.999
+# define DOOR_MIN_VISIBLE 0.20
+# define DOOR_MAX_OPEN 0.80
+# define DOOR_BLOCK_THRESHOLD 0.79
+# define WEAPON_ANIM_FRAMES 16
+# define WEAPON_FIRE_FRAMES 8
+# define WEAPON_ANIM_SPEED 2
+# define WEAPON_SCALE 38
 # define TITLE "cub3D"
 
 # include "../libft/libft.h"
@@ -81,6 +87,7 @@ typedef struct s_game
 	void		*win;
 	t_texture	screen;
 	t_texture	textures[5];
+	t_texture	weapon[2];
 	char		*tex_paths[5];
 	t_player	player;
 	t_ray		ray;
@@ -93,6 +100,8 @@ typedef struct s_game
 	double		**door_open;
 	int			mouse_enabled;
 	int			mouse_x_prev;
+	int			shoot_anim_timer;
+	int			shoot_anim_tick;
 }				t_game;
 
 #endif

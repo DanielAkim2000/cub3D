@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 16:02:53 by demane            #+#    #+#             */
-/*   Updated: 2026/03/20 15:04:15 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/21 18:20:35 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	ft_key_press(int keycode, t_game *game)
 	int	door_x;
 	int	door_y;
 
-	ft_printf("%d\n", keycode);
 	if (keycode == 65307)
 		ft_close_window(game);
 	if (keycode == 119)
@@ -38,7 +37,7 @@ int	ft_key_press(int keycode, t_game *game)
 		door_y = (int)(game->player.pos_y + game->player.dir_y * 1.5);
 		if (game->map[door_y][door_x] == 'D')
 		{
-			if (game->door_target[door_y][door_x] == 1)
+			if (game->door_target[door_y][door_x] >= DOOR_MAX_OPEN)
 				game->door_target[door_y][door_x] = 0;
 			else
 				game->door_target[door_y][door_x] = 1;
@@ -75,6 +74,20 @@ int	ft_close_window(t_game *game)
 {
 	int	i;
 
+	i = 0;
+	while (i < 5)
+	{
+		if (game->textures[i].img)
+			mlx_destroy_image(game->mlx, game->textures[i].img);
+		i++;
+	}
+	i = 0;
+	while (i < 2)
+	{
+		if (game->weapon[i].img)
+			mlx_destroy_image(game->mlx, game->weapon[i].img);
+		i++;
+	}
 	mlx_destroy_image(game->mlx, game->screen.img);
 	mlx_destroy_window(game->mlx, game->win);
 	mlx_destroy_display(game->mlx);

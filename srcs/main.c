@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 17:18:33 by demane            #+#    #+#             */
-/*   Updated: 2026/03/20 16:26:36 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/21 17:28:32 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int ac, char **av)
 	mlx_loop_hook(game.mlx, ft_render_frame, &game);
 	mlx_hook(game.win, 2, 1, ft_key_press, &game);
 	mlx_hook(game.win, 3, 2, ft_key_release, &game);
+	mlx_hook(game.win, 4, 1L << 2, ft_mouse_press, &game);
 	return (mlx_mouse_hide(game.mlx, game.win), mlx_mouse_move(game.mlx,
 			game.win, WIDTH / 2, HEIGHT / 2), mlx_loop(game.mlx), 0);
 }
