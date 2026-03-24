@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 13:15:22 by demane            #+#    #+#             */
-/*   Updated: 2025/11/08 13:18:52 by demane           ###   ########.fr       */
+/*   Created: 2025/11/06 11:39:57 by rbourdon          #+#    #+#             */
+/*   Updated: 2025/11/08 20:16:11 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

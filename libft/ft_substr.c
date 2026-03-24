@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 15:35:58 by demane            #+#    #+#             */
-/*   Updated: 2025/11/08 15:26:45 by demane           ###   ########.fr       */
+/*   Created: 2025/11/05 12:46:38 by rbourdon          #+#    #+#             */
+/*   Updated: 2025/11/08 22:34:29 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,29 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*ptr;
-	size_t	i;
-	size_t	j;
+	char			*ret;
+	size_t			real_len;
+	unsigned int	i;
 
 	if (!s)
 		return (NULL);
-	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	ptr = (char *)malloc(sizeof(char) * (len + 1));
-	if (!ptr)
+	if ((size_t)start >= ft_strlen(s))
+	{
+		ret = malloc(1);
+		if (!ret)
+			return (NULL);
+		ret[0] = '\0';
+		return (ret);
+	}
+	real_len = 0;
+	while (s[real_len + start] && real_len < len)
+		real_len++;
+	ret = (char *)malloc((real_len + 1) * sizeof(char));
+	if (!ret)
 		return (NULL);
-	i = start;
-	j = 0;
-	while (s[i] && j < len)
-		ptr[j++] = s[i++];
-	ptr[j] = '\0';
-	return (ptr);
+	i = -1;
+	while (++i < real_len)
+		ret[i] = s[start + i];
+	ret[i] = '\0';
+	return (ret);
 }

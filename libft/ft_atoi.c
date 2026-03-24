@@ -3,30 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 14:48:23 by demane            #+#    #+#             */
-/*   Updated: 2025/11/08 15:55:18 by demane           ###   ########.fr       */
+/*   Created: 2025/11/04 17:25:19 by rbourdon          #+#    #+#             */
+/*   Updated: 2025/11/08 20:25:41 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+int	ft_atoi(const char *nptr)
 {
+	int	ret;
+	int	sign;
 	int	i;
-	int	mul;
-	int	result;
 
+	sign = 0;
 	i = 0;
-	mul = -1;
-	result = 0;
-	while (str[i] == 32 || (str[i] >= '\t' && str[i] <= '\r'))
+	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
 		i++;
-	if (str[i] && (str[i] == '+' || str[i] == '-'))
-		if (str[i++] == '-')
-			mul = mul * (-1);
-	while (str[i] && ft_isdigit(str[i]))
-		result = result * 10 - (str[i++] - 48);
-	return (result * mul);
+	if (nptr[i] == '-')
+	{
+		sign = 1;
+		i++;
+	}
+	else if (nptr[i] == '+')
+		i++;
+	ret = 0;
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		ret *= 10;
+		ret += (nptr[i++] - '0');
+	}
+	if (sign)
+		return (-ret);
+	return (ret);
 }

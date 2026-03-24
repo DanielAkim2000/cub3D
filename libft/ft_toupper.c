@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 14:04:15 by demane            #+#    #+#             */
-/*   Updated: 2025/11/05 14:09:16 by demane           ###   ########.fr       */
+/*   Created: 2025/11/04 13:32:09 by rbourdon          #+#    #+#             */
+/*   Updated: 2025/11/04 17:06:36 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_toupper(int character)
+#include "libft.h"
+
+int	ft_toupper(int c)
 {
-	if (character >= 'a' && character <= 'z')
-		return (character - 32);
-	return (character);
+	if (c >= 97 && c <= 122)
+		return (c - 32);
+	return (c);
 }

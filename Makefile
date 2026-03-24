@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
+#    By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/04 11:09:10 by demane            #+#    #+#              #
-#    Updated: 2026/03/23 15:59:06 by demane           ###   ########.fr        #
+#    Updated: 2026/03/23 21:32:25 by rbourdon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,10 @@ DIR_MINIMAP = minimap
 FILES_INIT = init_mlx.c init.c
 FILES_HOOKS = keys.c mouse.c render.c move.c move_rotate.c move_walk.c \
 	close_window.c
-FILES_PARSER = parser.c parser_elements.c parser_map.c parser_map_closed.c
+FILES_PARSER = parser.c parser_final_check.c parser_free_utils.c \
+	parser_identifiers.c parser_line_utils.c parser_map_items.c \
+	parser_map_utils.c parser_utils.c parser_error_utils.c \
+	parser_special_trim.c parser_utils2.c
 FILES_RAYCASTER = dda.c draw.c raycast.c
 FILES_SPRITES = sprites.c sprites_draw.c
 FILES_TEXTURES = colors.c textures.c

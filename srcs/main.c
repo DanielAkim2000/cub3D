@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 17:18:33 by demane            #+#    #+#             */
-/*   Updated: 2026/03/21 17:28:32 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/24 14:06:58 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		return (ft_putstr_fd("Error\nUsage: ./cub3D <map.cub>\n", 2), 1);
 	if (!ft_parse_file(&game, av[1]))
-		return (ft_putstr_fd("Error\nFailed to parse map file\n", 2), 1);
+		return (ft_free_game(&game), 1);
 	if (ft_init_game(&game))
 		return (ft_putstr_fd("Error\nInit game failed\n", 2), 1);
 	game.mouse_enabled = 1;

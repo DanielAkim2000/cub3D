@@ -3,108 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/18 14:32:14 by demane            #+#    #+#             */
-/*   Updated: 2025/12/23 15:04:25 by demane           ###   ########.fr       */
+/*   Created: 2025/11/25 11:18:35 by rbourdon          #+#    #+#             */
+/*   Updated: 2026/03/22 15:34:47 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-ssize_t	ft_strlen_gnl(const char *str)
+size_t	gnl_strlen(const char *s)
 {
 	size_t	i;
 
 	i = 0;
-	if (!str)
+	if (!s)
 		return (0);
-	while (str[i])
+	while (*s)
+	{
+		s++;
 		i++;
+	}
 	return (i);
 }
 
-int	ft_initialize_join(char **s1, char const **s2,
-		int *i, int len[2])
+ssize_t	ft_strchr_mod(const char *s)
 {
-	if (!*s1 && !*s2)
-		return (1);
-	if (!*s2)
-		*s2 = "";
-	*i = -1;
-	len[0] = ft_strlen_gnl(*s1);
-	len[1] = ft_strlen_gnl(*s2);
-	return (0);
-}
-
-int	ft_include_new_line(char *str)
-{
-	int	i;
+	ssize_t	i;
 
 	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
+	if (!s)
+		return (-1);
+	while (s[i])
 	{
-		if (str[i++] == '\n')
-			return (1);
+		if (s[i] == 10)
+			return (i);
+		i++;
 	}
-	return (0);
+	return (-1);
 }
 
-int	ft_reintialise(t_line **l)
+char	*ft_line_handler(char *data, int index)
 {
-	int		i;
-	int		j;
-	char	*lastvalue;
-	char	*str;
+	char	*ret;
 
-	str = (*l)->line;
-	if (ft_include_new_line(str))
-	{
-		j = 0;
-		while (str[j] != '\n')
-			j++;
-		lastvalue = (*l)->line;
-		(*l)->line = (char *)malloc(sizeof(char)
-				* (ft_strlen_gnl(str) - j + 1));
-		if ((*l)->line == NULL)
-			return (free(lastvalue), 1);
-		i = 0;
-		while (str[++j])
-			(*l)->line[i++] = str[j];
-		if (i == 0)
-			return (free((*l)->line), (*l)->line = NULL, free(lastvalue), 0);
-		return ((*l)->line[i] = '\0', free(lastvalue), 0);
-	}
-	else
-		return (free((*l)->line), (*l)->line = NULL, 0);
+	ret = gnl_substr(data, 0, index + 1);
+	if (!ret)
+		return (NULL);
+	return (ret);
 }
 
-void	ft_supp_maillon(t_line *l, int fd, t_line init)
+char	*ft_data_keeper(char *data, int index)
 {
-	t_line	*prev;
-	t_line	*next;
-	t_line	*current;
+	char	*ret;
 
-	prev = NULL;
-	current = l;
-	while (current)
+	ret = gnl_substr(data, index + 1, gnl_strlen(data) - (index + 1));
+	free(data);
+	if (!ret || ret[0] == '\0')
 	{
-		next = current->next;
-		if (current->fd == fd)
-		{
-			if (prev)
-				prev->next = next;
-			else
-				l = next;
-			free(current->line);
-			if (current->fd != init.fd)
-				free(current);
-			current = NULL;
-		}
-		if (current)
-			prev = current;
-		current = next;
+		free(ret);
+		return (NULL);
 	}
+	return (ret);
+}
+
+char	*ft_eof_handler(char **data)
+{
+	char	*ret;
+
+	if (!*data || (*data)[0] == 0)
+		return (free(*data), *data = NULL, NULL);
+	ret = gnl_substr(*data, 0, gnl_strlen(*data));
+	if (!ret)
+		return (free(*data), *data = NULL, NULL);
+	free(*data);
+	*data = NULL;
+	return (ret);
 }

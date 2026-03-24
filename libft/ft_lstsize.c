@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 13:50:49 by demane            #+#    #+#             */
-/*   Updated: 2025/11/10 11:07:06 by demane           ###   ########.fr       */
+/*   Created: 2025/11/06 13:21:47 by rbourdon          #+#    #+#             */
+/*   Updated: 2025/11/09 17:22:08 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ int	ft_lstsize(t_list *lst)
 	i = 0;
 	while (lst)
 	{
-		lst = lst->next;
+		if (lst->next)
+			lst = lst->next;
+		else
+			lst = NULL;
 		i++;
 	}
 	return (i);

@@ -3,52 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/07 17:54:35 by demane            #+#    #+#             */
-/*   Updated: 2025/11/08 13:04:33 by demane           ###   ########.fr       */
+/*   Created: 2025/11/06 09:48:28 by rbourdon          #+#    #+#             */
+/*   Updated: 2025/11/08 20:19:36 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_lenint(int n)
+static long	ft_number_len(long n)
 {
-	int	len;
-	int	nb;
+	long	ret;
 
-	len = 0;
-	nb = n;
-	if (nb <= 0)
-		len++;
+	ret = 1;
+	while (n / 10)
+	{
+		n /= 10;
+		ret++;
+	}
+	return (ret);
+}
+
+static char	*ft_convert(long len, long neg, long nb)
+{
+	char	*ret;
+
+	if (nb == 0)
+	{
+		ret = (char *)malloc(2 * sizeof(char));
+		if (!ret)
+			return (NULL);
+		ret[0] = '0';
+		ret[1] = '\0';
+		return (ret);
+	}
+	ret = (char *)malloc((len + 1 + neg) * sizeof(char));
+	if (!ret)
+		return (NULL);
+	ret[len + neg] = '\0';
 	while (nb)
 	{
+		ret[--len + neg] = (nb % 10) + '0';
 		nb /= 10;
-		len++;
 	}
-	return (len);
+	if (neg)
+		ret[0] = '-';
+	return (ret);
 }
 
 char	*ft_itoa(int n)
 {
-	int		len_malloc;
+	long	len;
 	long	nb;
-	char	*str;
+	long	neg;
 
-	len_malloc = ft_lenint(n);
-	nb = (long)n;
+	nb = n;
+	neg = 0;
 	if (nb < 0)
-		nb = -nb;
-	str = (char *)malloc(sizeof(char) * (len_malloc + 1));
-	if (!str)
-		return (NULL);
-	str[len_malloc] = '\0';
-	while (len_malloc)
 	{
-		str[--len_malloc] = (nb % 10) + 48;
-		nb /= 10;
+		nb = -nb;
+		neg = 1;
 	}
-	if (n < 0)
-		str[0] = '-';
-	return (str);
+	len = ft_number_len(nb);
+	return (ft_convert(len, neg, nb));
 }

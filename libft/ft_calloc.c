@@ -3,26 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 15:07:16 by demane            #+#    #+#             */
-/*   Updated: 2026/01/05 15:13:01 by demane           ###   ########.fr       */
+/*   Created: 2025/11/05 09:55:52 by rbourdon          #+#    #+#             */
+/*   Updated: 2025/11/08 20:12:32 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t elementCount, size_t elementSize)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*ptr;
-	size_t	total_size;
+	unsigned char	*ret;
+	size_t			i;
 
-	total_size = elementCount * elementSize;
-	if (elementSize && total_size / elementSize != elementCount)
+	if (nmemb == 0 || size == 0)
+	{
+		ret = malloc(1);
+		if (!ret)
+			return (NULL);
+		ret[0] = '\0';
+		return ((void *)ret);
+	}
+	if (size > SIZE_MAX / nmemb)
 		return (NULL);
-	ptr = malloc(total_size);
-	if (!ptr)
+	ret = (void *)malloc(nmemb * size);
+	if (!ret)
 		return (NULL);
-	ft_memset(ptr, 0, total_size);
-	return (ptr);
+	i = 0;
+	while (i < nmemb * size)
+		ret[i++] = 0;
+	return (ret);
 }

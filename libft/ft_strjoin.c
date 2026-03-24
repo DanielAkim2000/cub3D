@@ -3,32 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 15:55:57 by demane            #+#    #+#             */
-/*   Updated: 2025/11/10 13:16:06 by demane           ###   ########.fr       */
+/*   Created: 2025/11/05 13:12:43 by rbourdon          #+#    #+#             */
+/*   Updated: 2025/11/08 22:20:02 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+static int	ft_strlen_moded(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+static void	ft_strcpy_moded(char *ret, const char *s1, int start)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i])
+	{
+		ret[start + i] = s1[i];
+		i++;
+	}
+}
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		len_malloc;
-	char	*str;
-	char	*ptr;
+	int		len_s1;
+	int		len_s2;
+	char	*ret;
 
 	if (!s1 || !s2)
 		return (NULL);
-	len_malloc = ft_strlen(s1) + ft_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (len_malloc + 1));
-	if (!str)
+	len_s1 = ft_strlen_moded(s1);
+	len_s2 = ft_strlen_moded(s2);
+	ret = (char *)malloc((len_s1 + len_s2 + 1) * sizeof(char));
+	if (!ret)
 		return (NULL);
-	ptr = &str[0];
-	while (*(s1))
-		*(str++) = *(s1++);
-	while (*s2)
-		*(str++) = *(s2++);
-	*str = '\0';
-	return (ptr);
+	ft_strcpy_moded(ret, s1, 0);
+	ft_strcpy_moded(ret, s2, len_s1);
+	ret[len_s1 + len_s2] = '\0';
+	return (ret);
 }

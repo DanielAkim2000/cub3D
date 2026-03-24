@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 13:52:58 by demane            #+#    #+#             */
-/*   Updated: 2025/11/10 16:15:41 by demane           ###   ########.fr       */
+/*   Created: 2025/11/06 13:29:36 by rbourdon          #+#    #+#             */
+/*   Updated: 2025/11/08 20:20:06 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,17 @@
 
 t_list	*ft_lstlast(t_list *lst)
 {
+	t_list	*ret;
+
 	if (!lst)
 		return (NULL);
-	while (lst && lst->next)
-		lst = lst->next;
-	return (lst);
+	if (lst->next == NULL)
+	{
+		ret = lst;
+		return (ret);
+	}
+	ret = lst;
+	while (ret->next)
+		ret = ret->next;
+	return (ret);
 }

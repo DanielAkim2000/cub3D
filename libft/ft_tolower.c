@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 14:07:57 by demane            #+#    #+#             */
-/*   Updated: 2025/11/05 14:09:22 by demane           ###   ########.fr       */
+/*   Created: 2025/11/04 14:11:56 by rbourdon          #+#    #+#             */
+/*   Updated: 2025/11/05 15:06:29 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_tolower(int character)
+#include "libft.h"
+
+int	ft_tolower(int c)
 {
-	if (character >= 'A' && character <= 'Z')
-		return (character + 32);
-	return (character);
+	if (c >= 65 && c <= 90)
+		return (c + 32);
+	return (c);
 }

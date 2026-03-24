@@ -3,39 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/18 14:32:11 by demane            #+#    #+#             */
-/*   Updated: 2026/01/29 11:42:22 by demane           ###   ########.fr       */
+/*   Created: 2025/11/26 09:37:53 by rbourdon          #+#    #+#             */
+/*   Updated: 2026/03/22 15:34:46 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
-
+# include <stddef.h>
+# include <unistd.h>
+# include <stdlib.h>
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
 # endif
 
-# include <unistd.h>
-# include <stdlib.h>
-
-typedef struct s_line
-{
-	char			*line;
-	int				fd;
-	struct s_line	*next;
-}	t_line;
-
+size_t	gnl_strlen(const char *s);
+char	*gnl_substr(char const *s, unsigned int start, size_t len);
+ssize_t	ft_strchr_mod(const char *s);
+char	*ft_strj(const char *s1, const char *s2, size_t *len, size_t datal);
 char	*get_next_line(int fd);
-char	*ft_strjoin_gnl(char *s1, char const *s2, int *lastlen);
-char	*ft_return_line(t_line *l);
-int		ft_recup_next_line(t_line *l);
-t_line	*ft_init_line(t_line *l, int fd);
-ssize_t	ft_strlen_gnl(const char *str);
-int		ft_initialize_join(char **s1, char const **s2, int *i, int len[2]);
-int		ft_include_new_line(char *str);
-int		ft_reintialise(t_line **l);
-void	ft_supp_maillon(t_line *l, int fd, t_line init);
+ssize_t	ft_reader(int fd, char **data, char *buffer, size_t *len_data);
+char	*ft_line_handler(char *data, int index);
+char	*ft_data_keeper(char *data, int index);
+char	*ft_eof_handler(char **data);
+void	ft_var_init(ssize_t *b_read, size_t *len, int *nl_found);
 
 #endif
