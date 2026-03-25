@@ -6,14 +6,14 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 14:03:00 by demane            #+#    #+#             */
-/*   Updated: 2026/03/23 15:59:06 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/25 16:25:33 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/init.h"
 #include "../../includes/sprites.h"
 
-static int	ft_get_sprite_pixel(t_texture *sprite, int x, int y)
+int	ft_get_sprite_pixel(t_texture *sprite, int x, int y)
 {
 	char	*pixel;
 
@@ -21,14 +21,15 @@ static int	ft_get_sprite_pixel(t_texture *sprite, int x, int y)
 	return (*(int *)pixel);
 }
 
-static int	ft_is_transparent(int color)
+int	ft_is_transparent(int color)
 {
-	return ((color & 0x00FFFFFF) == 0x00FF00FF);
+	return ((color & 0x00FFFFFF) == 0x00FF00FF
+		|| (color & 0x00FFFFFF) == 0x00000000);
 }
 
 static t_texture	*ft_get_weapon_sprite(t_game *game)
 {
-	if (game->shoot_anim_timer > (WEAPON_ANIM_FRAMES - WEAPON_FIRE_FRAMES))
+	if (game->weapon_anim_timer > (WEAPON_ANIM_DURATION - WEAPON_FIRE_DURATION))
 		return (&game->weapon[1]);
 	return (&game->weapon[0]);
 }
@@ -68,8 +69,8 @@ void	ft_draw_weapon(t_game *game)
 	size[1] = HEIGHT * WEAPON_SCALE / 100;
 	size[0] = (size[1] * sprite->width) / sprite->height;
 	off[0] = (WIDTH - size[0]) / 2;
-	off[1] = HEIGHT - size[1] + (HEIGHT * 6 / 100);
-	if (game->shoot_anim_timer > (WEAPON_ANIM_FRAMES - WEAPON_FIRE_FRAMES))
+	off[1] = HEIGHT - size[1] + (HEIGHT * 2 / 100);
+	if (game->weapon_anim_timer > (WEAPON_ANIM_DURATION - WEAPON_FIRE_DURATION))
 		off[1] -= HEIGHT * 2 / 100;
 	ft_draw_weapon_scaled(game, sprite, size, off);
 }

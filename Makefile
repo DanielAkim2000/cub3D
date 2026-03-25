@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+         #
+#    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/04 11:09:10 by demane            #+#    #+#              #
-#    Updated: 2026/03/23 21:32:25 by rbourdon         ###   ########.fr        #
+#    Updated: 2026/03/25 17:20:23 by demane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ DIR_MINIMAP = minimap
 
 ## FILES
 
-FILES_INIT = init_mlx.c init.c
+FILES_INIT = init_mlx.c init.c free_game_all.c
 FILES_HOOKS = keys.c mouse.c render.c move.c move_rotate.c move_walk.c \
 	close_window.c
 FILES_PARSER = parser.c parser_final_check.c parser_free_utils.c \
@@ -38,7 +38,7 @@ FILES_PARSER = parser.c parser_final_check.c parser_free_utils.c \
 	parser_map_utils.c parser_utils.c parser_error_utils.c \
 	parser_special_trim.c parser_utils2.c
 FILES_RAYCASTER = dda.c draw.c raycast.c
-FILES_SPRITES = sprites.c sprites_draw.c
+FILES_SPRITES = sprites.c sprites_draw.c sprites_torch_draw.c
 FILES_TEXTURES = colors.c textures.c
 FILES_MINIMAP = minimap.c minimap_utils.c
 
@@ -77,7 +77,7 @@ define progress_bar
 	EMPTY=$$(($(BAR_WIDTH) - $$FILLED)); \
 	FILE="$<"; \
 	SHORT_FILE=$$(printf "%-*.*s" $(FILE_WIDTH) $(FILE_WIDTH) "$$FILE"); \
-	printf "\r\033[K$(BOLD)$(CYAN)[BUILD] [MINISHELL]$(RESET) %s $(CYAN)[" "$$SHORT_FILE"; \
+	printf "\r\033[K$(BOLD)$(CYAN)[BUILD] [CUB3D]$(RESET) %s $(CYAN)[" "$$SHORT_FILE"; \
 	printf "%0.s=" $$(seq 1 $$FILLED); \
 	printf "%0.s " $$(seq 1 $$EMPTY); \
 	printf "] %3d%%$(RESET)" $$PERCENT
@@ -92,7 +92,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(MLX) $(LDFLAGS) -o $(NAME)
-	@printf "\n$(GREEN)✔ Build MINISHELL terminé$(RESET)\n"
+	@printf "\n$(GREEN)✔ Build CUB3D terminé$(RESET)\n"
 
 $(DIR_OBJS)/%.o: $(DIR_SRCS)/%.c
 	@mkdir -p $(dir $@)

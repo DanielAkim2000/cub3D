@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+         #
+#    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 11:33:25 by rbourdon          #+#    #+#              #
-#    Updated: 2026/03/24 15:45:51 by rbourdon         ###   ########.fr        #
+#    Updated: 2026/03/25 17:23:44 by demane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,8 +40,32 @@ SRCS = $(SRC_LIBFT) $(SRC_PRINTF) $(SRC_GNL)
 OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS = $(OBJS:.o=.d)
 
-CC = cc
+CC = @cc
 CFLAGS = -Wall -Wextra -Werror
+
+## STYLE
+RESET   = \033[0m
+GREEN   = \033[32m
+CYAN    = \033[36m
+BOLD  = \033[1m
+
+BAR_WIDTH = 30
+FILE_WIDTH = 40
+TOTAL     = $(words $(SRCS))
+COUNT     = 0
+
+define progress_bar
+	@$(eval COUNT=$(shell echo $$(( $(COUNT) + 1 ))))
+	@PERCENT=$$(($(COUNT) * 100 / $(TOTAL))); \
+	FILLED=$$(($(COUNT) * $(BAR_WIDTH) / $(TOTAL))); \
+	EMPTY=$$(($(BAR_WIDTH) - $$FILLED)); \
+	FILE="$<"; \
+	SHORT_FILE=$$(printf "%-*.*s" $(FILE_WIDTH) $(FILE_WIDTH) "$$FILE"); \
+	printf "\r\033[K$(BOLD)$(CYAN)[BUILD] [LIBFT]$(RESET) %s $(CYAN)[" "$$SHORT_FILE"; \
+	printf "%0.s=" $$(seq 1 $$FILLED); \
+	printf "%0.s " $$(seq 1 $$EMPTY); \
+	printf "] %3d%%$(RESET)" $$PERCENT
+endef
 
 all: $(NAME)
 
@@ -51,6 +75,7 @@ $(NAME): $(OBJS)
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -MMD -MP -c $< -o $@
+	$(progress_bar)
 
 clean:
 	@rm -rf obj obj_bonus

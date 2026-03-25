@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:50:00 by demane            #+#    #+#             */
-/*   Updated: 2026/03/23 15:59:06 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/24 16:51:13 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	ft_cell_color(t_game *game, int x, int y, char cell)
 		&& x < game->map_width && game->door_open[y][x] < DOOR_MAX_OPEN)
 		return (MINI_DOOR_COLOR);
 	if (cell == '0' || cell == 'N' || cell == 'S' || cell == 'E' || cell == 'W'
+		|| cell == 'T'
 		|| (cell == 'D' && y >= 0 && y < game->map_height && x >= 0
 			&& x < game->map_width && game->door_open[y][x] >= DOOR_MAX_OPEN))
 		return (MINI_FLOOR_COLOR);

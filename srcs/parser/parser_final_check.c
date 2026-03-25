@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_parser_final_check.c                         :+:      :+:    :+:   */
+/*   parser_final_check.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 15:41:16 by rbourdon          #+#    #+#             */
-/*   Updated: 2026/03/23 21:22:08 by rbourdon         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:51:13 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_final_check_loop(t_map_check *m, int i, int j, int *p)
 {
 	if (!ft_is_map_char(m->map[j][i]))
 		return (ft_error_only("Invalid character in map"), 0);
-	if (m->map[j][i] == '0')
+	if (m->map[j][i] == '0' || m->map[j][i] == 'T')
 	{
 		if (!ft_floor_check(m, i, j))
 			return (0);
@@ -66,8 +66,8 @@ int	ft_final_check_loop(t_map_check *m, int i, int j, int *p)
 			return (0);
 		m->has_door++;
 	}
-	else if (m->map[j][i] == 'N' || m->map[j][i] == 'S'
-		|| m->map[j][i] == 'E' || m->map[j][i] == 'W')
+	else if (m->map[j][i] == 'N' || m->map[j][i] == 'S' || m->map[j][i] == 'E'
+		|| m->map[j][i] == 'W')
 	{
 		ft_set_player(m->g, i, j, m->map[j][i]);
 		if (!ft_player_check(m, i, j, p))

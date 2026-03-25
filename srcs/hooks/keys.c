@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 16:02:53 by demane            #+#    #+#             */
-/*   Updated: 2026/03/23 18:45:51 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/25 13:37:39 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,15 @@ int	ft_key_press(int keycode, t_game *game)
 		ft_toggle_front_door(game);
 	if (keycode == 108)
 		game->mouse_enabled = !game->mouse_enabled;
+	if (keycode == 65505)
+		game->player.move_speed = MOVE_SPEED * 1.5;
 	return (0);
 }
 
 int	ft_key_release(int keycode, t_game *game)
 {
 	ft_apply_move_key(game, keycode, 0);
+	if (keycode == 65505)
+		game->player.move_speed = MOVE_SPEED;
 	return (0);
 }

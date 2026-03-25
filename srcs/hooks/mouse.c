@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 13:27:18 by demane            #+#    #+#             */
-/*   Updated: 2026/03/23 16:02:35 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/25 16:25:33 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	ft_mouse_press(int button, int x, int y, t_game *game)
 {
 	(void)x;
 	(void)y;
-	if (button == 1 && game->shoot_anim_timer == 0)
+	if (button == 1 && game->weapon_anim_timer == 0)
 	{
-		game->shoot_anim_timer = WEAPON_ANIM_FRAMES;
-		game->shoot_anim_tick = 0;
+		game->weapon_anim_timer = WEAPON_ANIM_DURATION;
+		game->weapon_anim_tick = 0;
 	}
 	return (0);
 }
