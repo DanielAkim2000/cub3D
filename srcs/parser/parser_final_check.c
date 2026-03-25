@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_final_check.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 15:41:16 by rbourdon          #+#    #+#             */
-/*   Updated: 2026/03/24 16:51:13 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/24 21:58:19 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int	ft_final_check_loop(t_map_check *m, int i, int j, int *p)
 			return (0);
 		m->has_door++;
 	}
-	else if (m->map[j][i] == 'N' || m->map[j][i] == 'S' || m->map[j][i] == 'E'
-		|| m->map[j][i] == 'W')
+	else if (m->map[j][i] == 'N' || m->map[j][i] == 'S'
+		|| m->map[j][i] == 'E' || m->map[j][i] == 'W')
 	{
 		ft_set_player(m->g, i, j, m->map[j][i]);
 		if (!ft_player_check(m, i, j, p))

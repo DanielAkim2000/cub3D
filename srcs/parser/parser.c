@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   cub3d_parser.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 14:18:15 by rbourdon          #+#    #+#             */
-/*   Updated: 2026/03/25 16:55:15 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/23 21:23:08 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	ft_parse_file(t_game *g, char *path)
 	if (!ft_final_check(&m))
 		return (ft_free_parser_and_error(&m, NULL), 0);
 	i = -1;
-	while (++i < MAP_TEXTURE_COUNT && m.g->tex_paths[i])
+	while (++i < 5 && m.g->tex_paths[i])
 	{
 		if (!ft_parse_file_loop(&m, i))
 			return (0);
