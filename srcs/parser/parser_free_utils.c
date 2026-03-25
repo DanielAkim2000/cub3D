@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_free_utils.c                                :+:      :+:    :+:   */
+/*   cub3d_parser_free_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 15:15:26 by rbourdon          #+#    #+#             */
-/*   Updated: 2026/03/25 16:55:15 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/23 21:22:13 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_free_game(t_game *g)
 		g->map = NULL;
 	}
 	i = -1;
-	while (++i < MAP_TEXTURE_COUNT)
+	while (++i < 5)
 	{
 		free(g->tex_paths[i]);
 		g->tex_paths[i] = NULL;

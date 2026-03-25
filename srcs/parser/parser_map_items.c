@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_map_items.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 15:38:08 by rbourdon          #+#    #+#             */
-/*   Updated: 2026/03/24 16:51:13 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/24 22:00:00 by rbourdon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ char	ft_map_pos_check(t_map_check *m, int i, int j)
 
 int	ft_is_walkable(char c)
 {
-	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W'
-		|| c == 'T');
+	return (c == '0' || c == 'N' || c == 'S'
+		|| c == 'E' || c == 'W' || c == 'T');
 }
 
 int	ft_door_check(t_map_check *m, int i, int j)
@@ -34,11 +34,13 @@ int	ft_door_check(t_map_check *m, int i, int j)
 		|| ft_is_blank(ft_map_pos_check(m, i - 1, j))
 		|| ft_is_blank(ft_map_pos_check(m, i + 1, j)))
 		return (ft_error_only("Door must not be at the edges of the map"), 0);
-	if ((ft_map_pos_check(m, i - 1, j) == '1' && ft_map_pos_check(m, i + 1,
-				j) == '1' && ft_is_walkable(ft_map_pos_check(m, i, j - 1))
+	if ((ft_map_pos_check(m, i - 1, j) == '1'
+			&& ft_map_pos_check(m, i + 1, j) == '1'
+			&& ft_is_walkable(ft_map_pos_check(m, i, j - 1))
 			&& ft_is_walkable(ft_map_pos_check(m, i, j + 1)))
-		|| (ft_map_pos_check(m, i, j - 1) == '1' && ft_map_pos_check(m, i, j
-				+ 1) == '1' && ft_is_walkable(ft_map_pos_check(m, i - 1, j))
+		|| (ft_map_pos_check(m, i, j - 1) == '1'
+			&& ft_map_pos_check(m, i, j + 1) == '1'
+			&& ft_is_walkable(ft_map_pos_check(m, i - 1, j))
 			&& ft_is_walkable(ft_map_pos_check(m, i + 1, j))))
 		return (1);
 	return (ft_error_only("Misplaced door on the map"), 0);
