@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 15:02:55 by demane            #+#    #+#             */
-/*   Updated: 2026/03/05 14:36:12 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/24 16:51:12 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_raycast(t_game *game)
 		ft_perform_dda(game);
 		ft_calculate_perp_dist(game);
 		ft_calculate_wall_height(game);
+		game->zbuffer[x] = game->ray.perp_wall_dist;
 		ft_draw_column(game, x);
 		x++;
 	}

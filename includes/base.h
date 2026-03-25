@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 12:47:31 by demane            #+#    #+#             */
-/*   Updated: 2026/03/23 13:22:26 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/25 16:56:18 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,23 @@
 # define HEIGHT 720
 # define MARGIN 0.2
 # define DOOR_TEXTURE_INDEX 4
+# define WALL_TEXTURE_COUNT 4
+# define MAP_TEXTURE_COUNT 5
 # define DOOR_SLIDE_SPEED 0.02
 # define DOOR_MIN_VISIBLE 0.20
 # define DOOR_MAX_OPEN 0.80
 # define DOOR_BLOCK_THRESHOLD 0.79
-# define WEAPON_ANIM_FRAMES 16
-# define WEAPON_FIRE_FRAMES 8
+# define WEAPON_SPRITE_COUNT 2
+# define WEAPON_ANIM_DURATION 16
+# define WEAPON_FIRE_DURATION 8
 # define WEAPON_ANIM_SPEED 2
-# define WEAPON_SCALE 38
+# define WEAPON_SCALE 42
+# define TORCH_SPRITE_COUNT 4
+# define MOVE_SPEED 0.02
+# define ROT_SPEED 0.02
+# define TORCH_ANIM_SPEED 8
+# define TORCH_SCALE 35
+
 # define TITLE "cub3D"
 
 # include "../libft/libft.h"
@@ -86,9 +95,10 @@ typedef struct s_game
 	void		*mlx;
 	void		*win;
 	t_texture	screen;
-	t_texture	textures[5];
-	t_texture	weapon[2];
-	char		*tex_paths[5];
+	t_texture	textures[MAP_TEXTURE_COUNT];
+	t_texture	weapon[WEAPON_SPRITE_COUNT];
+	t_texture	torch[TORCH_SPRITE_COUNT];
+	char		*tex_paths[MAP_TEXTURE_COUNT];
 	t_player	player;
 	t_ray		ray;
 	char		**map;
@@ -100,8 +110,22 @@ typedef struct s_game
 	double		**door_open;
 	int			mouse_enabled;
 	int			mouse_x_prev;
-	int			shoot_anim_timer;
-	int			shoot_anim_tick;
+	int			weapon_anim_timer;
+	int			weapon_anim_tick;
+	int			torch_anim_frame_idx;
+	int			torch_anim_tick;
+	double		zbuffer[WIDTH];
 }				t_game;
+
+typedef struct s_torch_draw
+{
+	t_texture	*sprite;
+	double		transform_x;
+	double		transform_y;
+	int			screen_x;
+	int			size[2];
+	int			start[2];
+	int			end[2];
+}				t_torch_draw;
 
 #endif

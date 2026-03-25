@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 16:25:50 by demane            #+#    #+#             */
-/*   Updated: 2026/03/23 15:59:06 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/24 16:51:12 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ int	ft_render_frame(t_game *game)
 	ft_handle_movement(game);
 	ft_handle_mouse(game);
 	ft_update_weapon_animation(game);
+	ft_update_torch_animation(game);
 	ft_update_doors(game);
 	ft_raycast(game);
+	ft_draw_torch_sprites(game);
 	ft_draw_minimap(game);
 	ft_draw_weapon(game);
 	ft_draw_crosshair(game);

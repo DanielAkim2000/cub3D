@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_parser_error_utils.c                         :+:      :+:    :+:   */
+/*   parser_error_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 15:09:13 by rbourdon          #+#    #+#             */
-/*   Updated: 2026/03/23 21:22:04 by rbourdon         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:55:15 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_free_parser_and_error(t_map_check *m, char *s)
 	if (m->fd > 2)
 		close(m->fd);
 	i = -1;
-	while (++i < 5)
+	while (++i < MAP_TEXTURE_COUNT)
 	{
 		if (m->g->tex_paths[i])
 		{

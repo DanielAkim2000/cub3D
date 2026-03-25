@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_parser_map_utils.c                           :+:      :+:    :+:   */
+/*   parser_map_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 15:30:44 by rbourdon          #+#    #+#             */
-/*   Updated: 2026/03/23 21:22:50 by rbourdon         ###   ########.fr       */
+/*   Updated: 2026/03/24 16:51:13 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_map_name_checker(char *s)
 {
-	int			len;
+	int	len;
 
 	if (!s)
 		return (ft_error_only("Map path is NULL"), 0);
@@ -52,9 +52,8 @@ int	ft_map_width(char **map)
 
 int	ft_is_map_char(char c)
 {
-	return (c == ' ' || c == '0' || c == '1'
-		|| c == 'N' || c == 'S' || c == 'E' || c == 'W'
-		|| c == 'D');
+	return (c == ' ' || c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'E'
+		|| c == 'W' || c == 'D' || c == 'T');
 }
 
 int	ft_is_map_line(const char *line)

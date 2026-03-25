@@ -6,28 +6,34 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 14:58:42 by demane            #+#    #+#             */
-/*   Updated: 2026/03/23 15:59:06 by demane           ###   ########.fr       */
+/*   Updated: 2026/03/25 17:19:55 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/textures.h"
+#include "../../includes/init.h"
 
 static void	ft_load_door_xpm(t_game *game)
 {
-	if (!game->tex_paths[4])
+	if (!game->tex_paths[DOOR_TEXTURE_INDEX])
 		return ;
-	game->textures[4].img = mlx_xpm_file_to_image(game->mlx, game->tex_paths[4],
-			&game->textures[4].width, &game->textures[4].height);
-	if (!game->textures[4].img)
+	game->textures[DOOR_TEXTURE_INDEX].img = mlx_xpm_file_to_image(game->mlx,
+			game->tex_paths[DOOR_TEXTURE_INDEX],
+			&game->textures[DOOR_TEXTURE_INDEX].width,
+			&game->textures[DOOR_TEXTURE_INDEX].height);
+	if (!game->textures[DOOR_TEXTURE_INDEX].img)
 	{
 		ft_putstr_fd("Error\nTexture not found: ", 2);
-		ft_putstr_fd(game->tex_paths[4], 2);
+		ft_putstr_fd(game->tex_paths[DOOR_TEXTURE_INDEX], 2);
 		ft_putstr_fd("\n", 2);
+		ft_free_game_all(game);
 		exit(1);
 	}
-	game->textures[4].addr = mlx_get_data_addr(game->textures[4].img,
-			&game->textures[4].bpp, &game->textures[4].line_len,
-			&game->textures[4].endian);
+	game->textures[DOOR_TEXTURE_INDEX].addr = mlx_get_data_addr(
+			game->textures[DOOR_TEXTURE_INDEX].img,
+			&game->textures[DOOR_TEXTURE_INDEX].bpp,
+			&game->textures[DOOR_TEXTURE_INDEX].line_len,
+			&game->textures[DOOR_TEXTURE_INDEX].endian);
 }
 
 void	ft_load_xpm(t_game *game)
@@ -35,7 +41,7 @@ void	ft_load_xpm(t_game *game)
 	int	i;
 
 	i = 0;
-	while (i < 4)
+	while (i < WALL_TEXTURE_COUNT)
 	{
 		game->textures[i].img = mlx_xpm_file_to_image(game->mlx,
 				game->tex_paths[i], &game->textures[i].width,
@@ -45,6 +51,7 @@ void	ft_load_xpm(t_game *game)
 			ft_putstr_fd("Error\nTexture not found: ", 2);
 			ft_putstr_fd(game->tex_paths[i], 2);
 			ft_putstr_fd("\n", 2);
+			ft_free_game_all(game);
 			exit(1);
 		}
 		game->textures[i].addr = mlx_get_data_addr(game->textures[i].img,
