@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbourdon <rbourdon@student.42paris.fr>     +#+  +:+       +#+        */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 17:18:33 by demane            #+#    #+#             */
-/*   Updated: 2026/03/24 14:06:58 by rbourdon         ###   ########.fr       */
+/*   Updated: 2026/03/26 13:08:58 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int ac, char **av)
 	mlx_loop_hook(game.mlx, ft_render_frame, &game);
 	mlx_hook(game.win, 2, 1, ft_key_press, &game);
 	mlx_hook(game.win, 3, 2, ft_key_release, &game);
-	mlx_hook(game.win, 4, 1L << 2, ft_mouse_press, &game);
+	mlx_hook(game.win, 4, 4, ft_mouse_press, &game);
 	return (mlx_mouse_hide(game.mlx, game.win), mlx_mouse_move(game.mlx,
 			game.win, WIDTH / 2, HEIGHT / 2), mlx_loop(game.mlx), 0);
 }
