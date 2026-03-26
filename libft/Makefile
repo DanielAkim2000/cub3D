@@ -6,7 +6,7 @@
 #    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/10 11:33:25 by rbourdon          #+#    #+#              #
-#    Updated: 2026/03/25 17:23:44 by demane           ###   ########.fr        #
+#    Updated: 2026/03/26 18:23:24 by demane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
+	@printf "\n$(GREEN)✔ Build LIBFT terminé$(RESET)\n"
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)

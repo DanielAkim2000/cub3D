@@ -6,7 +6,7 @@
 #    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/03/04 11:09:10 by demane            #+#    #+#              #
-#    Updated: 2026/03/25 17:20:23 by demane           ###   ########.fr        #
+#    Updated: 2026/03/26 18:24:26 by demane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,8 +82,6 @@ define progress_bar
 	printf "%0.s " $$(seq 1 $$EMPTY); \
 	printf "] %3d%%$(RESET)" $$PERCENT
 endef
-
-
 
 
 ## RULES
